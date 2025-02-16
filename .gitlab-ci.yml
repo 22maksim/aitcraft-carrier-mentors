@@ -1,0 +1,56 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  APP_NAME: "myapp"
+  DEV_SERVER: "user@dev-server:/opt/dev-app/"
+  PROD_SERVER: "user@prod-server:/opt/prod-app/"
+  JAR_NAME: "build/libs/myapp.jar"
+
+cache:
+  paths:
+    - ~/.gradle/wrapper
+    - ~/.gradle/caches
+
+build:
+  stage: build
+  image: gradle:8.4-jdk17
+  script:
+    - gradle clean build -x test
+  artifacts:
+    paths:
+      - $JAR_NAME
+
+test:
+  stage: test
+  image: gradle:8.4-jdk17
+  script:
+    - gradle test
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/test/*.xml
+
+deploy_dev:
+  stage: deploy
+  only:
+    - dev
+  image: alpine
+  before_script:
+    - apk add --no-cache openssh
+  script:
+    - scp $JAR_NAME $DEV_SERVER
+    - ssh user@dev-server "systemctl restart myapp-dev"
+
+deploy_prod:
+  stage: deploy
+  only:
+    - main  # или master, в зависимости от структуры
+  image: alpine
+  before_script:
+    - apk add --no-cache openssh
+  script:
+    - scp $JAR_NAME $PROD_SERVER
+    - ssh user@prod-server "systemctl restart myapp-prod"
