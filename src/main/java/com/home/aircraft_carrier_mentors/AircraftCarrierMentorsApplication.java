@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AircraftCarrierMentorsApplication {
 
 	public static void main(String[] args) {
-		 SpringApplication.run(AircraftCarrierMentorsApplication.class, args);
-
+		var context = SpringApplication.run(AircraftCarrierMentorsApplication.class, args);
+		System.out.println(context);
 	}
 
 }

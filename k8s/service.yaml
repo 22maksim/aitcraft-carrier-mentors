@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: aircraft-carrier-mentors  # Имя сервиса, по которому можно обращаться
+spec:
+  selector:
+    app: aircraft-carrier-mentors  # Связываем с подами по label
+  ports:
+    - protocol: TCP
+      port: 80        # Порт, по которому сервис доступен внутри кластера
+      targetPort: 8080  # Порт, на котором работает приложение в контейнере
+  type: ClusterIP  # Внутренний сервис (доступен только внутри кластера)

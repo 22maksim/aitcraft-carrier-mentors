@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aircraft-carrier-mentors
+spec:
+  rules:
+    - host: api.mycloudcompany.com
+      http:
+        paths:
+          - path: /mentors
+            pathType: Prefix
+            backend:
+              service:
+                name: aircraft-carrier-mentors
+                port:
+                  number: 80

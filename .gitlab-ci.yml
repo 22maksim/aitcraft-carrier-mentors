@@ -8,6 +8,10 @@ variables:
   DEV_SERVER: "user@dev-server:/opt/dev-app/"
   PROD_SERVER: "user@prod-server:/opt/prod-app/"
   JAR_NAME: "build/libs/myapp.jar"
+  POSTGRES_DB: mydatabase
+  POSTGRES_USER: myuser
+  POSTGRES_PASSWORD: secret
+  DB_HOST: postgres
 
 cache:
   paths:

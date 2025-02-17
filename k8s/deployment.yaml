@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aircraft-carrier-mentors
+spec:
+  replicas: 2  # Количество подов
+  selector:
+    matchLabels:
+      app: aircraft-carrier-mentors
+  template:
+    metadata:
+      labels:
+        app: aircraft-carrier-mentors
+    spec:
+      containers:
+        - name: aircraft-carrier-mentors
+          image: myrepo/aircraft-carrier-mentors:latest  # Образ в Docker Registry
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "k8s"
