@@ -2,6 +2,7 @@ package com.home.aircraft_carrier_mentors.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.Instant;
@@ -20,7 +21,10 @@ public class Mentor {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @OneToOne(mappedBy = "mentor")
+    private UserOwner userOwner;
+
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "mentor_intern",
             joinColumns = @JoinColumn(name = "mentor_id"),
@@ -37,7 +41,7 @@ public class Mentor {
     private List<Contact> contacts;
 
     @Column(name = "created_at", updatable = false)
-    @CreatedDate
+    @CreationTimestamp
     private Instant createdAt;
 
     public Long getId() {

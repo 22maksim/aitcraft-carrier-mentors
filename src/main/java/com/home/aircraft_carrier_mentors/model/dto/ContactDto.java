@@ -1,19 +1,17 @@
 package com.home.aircraft_carrier_mentors.model.dto;
 
+import com.home.aircraft_carrier_mentors.model.enums.ContactType;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Builder;
+import lombok.NonNull;
 
-@Getter
-@Setter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class ContactDto {
-    private Long id;
+public record ContactDto (
     @NonNull
-    @Size(min = 1, max = 50)
-    private String type;
+    ContactType type,
+
     @NonNull
     @Size(min = 1, max = 250)
-    private String value;
+    String value
+) {
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 import java.util.List;
@@ -21,10 +22,13 @@ public class Intern{
     @Column(name = "name", nullable = false)
     private String name;
 
+    @OneToOne(mappedBy = "intern")
+    private UserOwner userOwner;
+
     @ManyToMany(mappedBy = "interns")
     private List<Mentor> mentors;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "intern_contact",
             joinColumns = @JoinColumn(name = "intern_id"),
@@ -33,6 +37,7 @@ public class Intern{
     private List<Contact> contacts;
 
     @Column(name = "created_at", nullable = false)
+    @CreationTimestamp
     private Instant createdAt;
 
     public Long getId() {

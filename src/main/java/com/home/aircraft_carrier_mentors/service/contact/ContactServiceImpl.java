@@ -7,7 +7,9 @@ import com.home.aircraft_carrier_mentors.repository.ContactRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -17,9 +19,13 @@ public class ContactServiceImpl implements ContactService {
     private final ContactRepository contactRepository;
     private final ContactMapper contactMapper;
 
+    @Transactional
     @Override
     public List<Contact> saveAll(List<ContactDto> contactDtoList) {
-        return List.of();
+        List<Contact> contacts = contactDtoList.stream()
+                .map(contactMapper::mapDtoToContact)
+                .toList();
+        return contactRepository.saveAll(contacts);
     }
 
     @Override

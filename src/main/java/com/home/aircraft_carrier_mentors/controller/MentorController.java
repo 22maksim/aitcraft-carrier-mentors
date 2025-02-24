@@ -6,11 +6,7 @@ import com.home.aircraft_carrier_mentors.service.mentor.MentorService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/mentors")
@@ -21,5 +17,15 @@ public class MentorController {
     @PostMapping
     public MentorResponseDto createMentor(@RequestBody @NotNull @Valid MentorRequestDto requestDto) {
         return mentorServiceImpl.createMentor(requestDto);
+    }
+
+    @GetMapping("/{id}")
+    public MentorResponseDto getMentorById(@PathVariable @NotNull Long id) {
+        return mentorServiceImpl.findMentorById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteMentorById(@PathVariable @NotNull Long id) {
+        mentorServiceImpl.deleteMentorById(id);
     }
 }

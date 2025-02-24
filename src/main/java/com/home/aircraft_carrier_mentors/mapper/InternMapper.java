@@ -12,6 +12,7 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface InternMapper {
@@ -23,13 +24,15 @@ public interface InternMapper {
     @Named("contactToContactDtoList")
     default List<ContactDto> contactToContactDtoList(List<Contact> contacts) {
         return (contacts != null) ? contacts.stream()
-                .map(contact -> ContactDto.builder().value(contact.getValue()).type(contact.getType().name()).build())
+                .filter(Objects::nonNull)
+                .map(contact -> ContactDto.builder().value(contact.getValue()).type(contact.getType()).build())
                 .toList() : Collections.emptyList();
     }
 
     @Named("mentorToMentorResponseDtoList")
     default List<Long> mentorToMentorResponseDtoList(List<Mentor> mentors) {
         return (mentors != null) ? mentors.stream()
+                .filter(Objects::nonNull)
                 .map(Mentor::getId)
                 .toList() : Collections.emptyList();
     }

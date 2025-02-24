@@ -1,5 +1,6 @@
 package com.home.aircraft_carrier_mentors.service.intern;
 
+import com.home.aircraft_carrier_mentors.exception.MyNotFoundException;
 import com.home.aircraft_carrier_mentors.mapper.ContactMapper;
 import com.home.aircraft_carrier_mentors.mapper.InternMapper;
 import com.home.aircraft_carrier_mentors.model.Contact;
@@ -9,7 +10,6 @@ import com.home.aircraft_carrier_mentors.model.dto.ContactDto;
 import com.home.aircraft_carrier_mentors.model.dto.InternRequestDto;
 import com.home.aircraft_carrier_mentors.model.dto.InternResponseDto;
 import com.home.aircraft_carrier_mentors.model.dto.MentorRequestDto;
-import com.home.aircraft_carrier_mentors.model.enums.ContactType;
 import com.home.aircraft_carrier_mentors.repository.ContactRepository;
 import com.home.aircraft_carrier_mentors.repository.InternRepository;
 import com.home.aircraft_carrier_mentors.repository.MentorRepository;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -47,7 +46,7 @@ public class InternServiceImpl implements InternService {
 
         System.out.println(intern.getName());
         intern = internRepository.save(intern);
-        LOGGER.info("Creating Intern. Name: {}" + intern.getName() + "id " + intern.getId());
+        LOGGER.info("Creating Intern. Name: {}" + intern.getName() + ". Time: " + intern.getCreatedAt());
         return internMapper.internToResponseDto(intern);
     }
 
@@ -55,13 +54,35 @@ public class InternServiceImpl implements InternService {
     @Override
     public InternResponseDto addMentorFromIntern(Long id, MentorRequestDto requestDto) {
         Intern intern = internRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Intern not found"));
+                .orElseThrow(() -> new MyNotFoundException("Intern not found"));
 
         Mentor mentor = mentorRepository.findById(requestDto.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Mentor not found"));
+                .orElseThrow(() -> new MyNotFoundException("Mentor not found"));
 
         intern.getMentors().add(mentor);
+        mentor.getInterns().add(intern);
 
+        return internMapper.internToResponseDto(intern);
+    }
+
+    @Transactional
+    @Override
+    public InternResponseDto addContact(ContactDto contactDto, Long id) {
+        Contact contact = contactService.saveAll(List.of(contactDto)).get(0);
+
+        Intern intern = internRepository.findById(id)
+                .orElseThrow(() -> new MyNotFoundException("Intern not found"));
+
+        intern.getContacts().add(contact);
+
+        return internMapper.internToResponseDto(intern);
+    }
+
+    @Transactional
+    @Override
+    public InternResponseDto getInternById(Long id) {
+        Intern intern = internRepository.findById(id)
+                .orElseThrow(() -> new MyNotFoundException("Intern not found"));
         return internMapper.internToResponseDto(intern);
     }
 }

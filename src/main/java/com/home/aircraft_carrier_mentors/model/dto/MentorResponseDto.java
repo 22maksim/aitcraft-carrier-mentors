@@ -3,9 +3,9 @@ package com.home.aircraft_carrier_mentors.model.dto;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.time.Instant;
 import java.util.List;
 
-@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,15 +17,53 @@ public class MentorResponseDto {
     @Size(min = 1, max = 250)
     private String name;
 
-    private List<ContactDto> contact;
+    @NonNull
+    private List<ContactDto> contactsDtoList;
 
+    @NonNull
     private List<Long> internIds;
 
-    public void setContact(@NonNull List<ContactDto> contact) {
-        this.contact = contact;
+    @NonNull
+    private Instant createdAt;
+
+
+    public void setInternIds(List<Long> internIds) {
+        this.internIds = internIds;
     }
 
-    public void setInternIds(@NonNull List<Long> interns) {
-        this.internIds = interns;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<ContactDto> getContactsDtoList() {
+        return contactsDtoList;
+    }
+
+    public void setContactsDtoList(List<ContactDto> contactsDtoList) {
+        this.contactsDtoList = contactsDtoList;
+    }
+
+    public List<Long> getInternIds() {
+        return internIds;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 }
