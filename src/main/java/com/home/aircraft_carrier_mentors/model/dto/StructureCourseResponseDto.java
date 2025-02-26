@@ -11,7 +11,6 @@ import java.time.Instant;
 @AllArgsConstructor
 public class StructureCourseResponseDto {
     private String title;
-    private CourseResponseDto course;
     private Instant updatedAt;
     private Instant createdAt;
 }

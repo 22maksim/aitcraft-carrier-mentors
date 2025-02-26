@@ -1,6 +1,6 @@
 package com.home.aircraft_carrier_mentors.controller;
 
-import com.home.aircraft_carrier_mentors.model.dto.StageFromStructureCourseDto;
+import com.home.aircraft_carrier_mentors.model.dto.StageCourseDto;
 import com.home.aircraft_carrier_mentors.model.dto.StructureCourseResponseDto;
 import com.home.aircraft_carrier_mentors.service.course.StructureCourseService;
 import jakarta.validation.Valid;
@@ -16,7 +16,7 @@ public class StructureCourseController {
 
     @PutMapping("{id}")
     public StructureCourseResponseDto addStageFromStructureById(
-            @RequestBody @NotNull @Valid StageFromStructureCourseDto stageStructureDto,
+            @RequestBody @NotNull @Valid StageCourseDto stageStructureDto,
             @PathVariable Long id) {
         return structureCourseServiceImpl.addStageFromStructureById(id, stageStructureDto);
     }

@@ -16,5 +16,15 @@ spring:
   profiles:
     active: local
 
+  jackson:
+    serialization:
+      write-enums-using-to-string: true
+
 server:
   port: 8069
+
+yookassa:
+  token: ${YOUKASSA_TOKEN}
+  store-id: ${STORE_ID}
+  password: ${YOOKASSA_PASSWORD}
+

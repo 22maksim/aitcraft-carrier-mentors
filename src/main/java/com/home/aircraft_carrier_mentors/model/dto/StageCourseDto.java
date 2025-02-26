@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StageFromStructureCourseDto {
+public class StageCourseDto {
     private String title;
     private String description;
 }

@@ -21,7 +21,7 @@ public class UserOwner {
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "course_owner_id")
-  private CourseOwner courseOwner;
+  private CourseOwner courseOwner; // Он нужен и должен быть владельцем курсов, и может быть только он владельцем, если есть роль владельца курсов, то он интерном быть уже не может
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "mentor_id")

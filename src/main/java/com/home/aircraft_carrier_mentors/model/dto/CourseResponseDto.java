@@ -12,6 +12,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseResponseDto {
+    private Long id;
     private String title;
     private String description;
     private Long ownerId;
