@@ -3,27 +3,18 @@ package com.home.aircraft_carrier_mentors.model.dto;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MentorResponseDto {
-    @NonNull
+public class MentorResponseDto  implements Serializable {
     private Long id;
-
-    @NonNull
-    @Size(min = 1, max = 250)
     private String name;
-
-    @NonNull
     private List<ContactDto> contactsDtoList;
-
-    @NonNull
     private List<Long> internIds;
-
-    @NonNull
     private Instant createdAt;
 
 

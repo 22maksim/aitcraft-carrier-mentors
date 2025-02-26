@@ -35,4 +35,16 @@ public class CourseServiceImpl implements  CourseService {
         Course createdCourse = courseRepository.save(course);
         return courseMapper.courseToCourseResponseDto(createdCourse);
     }
+
+    @Override
+    public void deleteCourse(Long id) {
+        courseRepository.deleteById(id);
+    }
+
+    @Override
+    public CourseResponseDto getCourse(Long id) {
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new MyNotFoundException("Course not found. Id : " + id));
+        return courseMapper.courseToCourseResponseDto(course);
+    }
 }

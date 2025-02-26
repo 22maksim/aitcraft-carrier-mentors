@@ -9,8 +9,8 @@ import java.time.Instant;
 import java.util.List;
 
 @Entity
-@Table(name = "mentor")
 @Builder
+@Table(name = "mentor")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Mentor {

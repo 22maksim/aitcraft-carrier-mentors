@@ -1,15 +1,17 @@
 package com.home.aircraft_carrier_mentors.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "course_owner")
+@NoArgsConstructor
+@AllArgsConstructor
 public class CourseOwner {
 
     @Id

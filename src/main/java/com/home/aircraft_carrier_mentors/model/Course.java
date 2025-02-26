@@ -2,9 +2,11 @@ package com.home.aircraft_carrier_mentors.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Builder
 @Table(name = "courses")
 @NoArgsConstructor
 @AllArgsConstructor

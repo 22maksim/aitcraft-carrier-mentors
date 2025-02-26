@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.List;
 
 @Entity
-@Table(name = "course_structures")
+@Table(name = "structures_course")
 @NoArgsConstructor
 @AllArgsConstructor
 public class StructureCourse {

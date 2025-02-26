@@ -6,11 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CourseRequestDto {
+public class CourseRequestDto implements Serializable {
     @NotNull
     private String title;
     @NotNull

@@ -5,13 +5,11 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.NonNull;
 
+import java.io.Serializable;
+
 @Builder
 public record ContactDto (
-    @NonNull
     ContactType type,
-
-    @NonNull
-    @Size(min = 1, max = 250)
     String value
-) {
+) implements Serializable {
 }
