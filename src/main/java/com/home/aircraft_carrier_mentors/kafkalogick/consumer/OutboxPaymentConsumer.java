@@ -24,7 +24,6 @@ public class OutboxPaymentConsumer {
 
     @KafkaListener(topics = "outbox_payment.public.outbox_payment", groupId = "my-group-2")
     public void onMessage(ConsumerRecord<String, byte[]> message, Acknowledgment acknowledgment) {
-        System.out.println("ПОЛУЧЕНО СООБЩЕНИЕ НАКОНЕЦ-ТО!!! ::: " + message);
         OutboxPayment order = null;
         try {
             byte[] valueBytes = message.value();
@@ -37,6 +36,8 @@ public class OutboxPaymentConsumer {
                 if (!afterNode.isBlank()) {
                     order =  objectMapper.readValue(afterNode, OutboxPayment.class);
                     orderCourseServiceImpl.createOrderByCourse(order);
+                } else {
+                    throw new IllegalArgumentException("Payload is empty");
                 }
             }
 

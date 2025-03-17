@@ -87,6 +87,18 @@ services:
               properties:
                 bootstrap.servers: "kafka:9093"
 
+  prometheus:
+    image: prom/prometheus:v2.37.0
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml  # Монтируем конфиг
+    ports:
+      - "9090:9090" # Порт для доступа к интерфейсу Prometheus
+    networks:
+      - kafka-net
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"  # Указываем конфигурацию
+
 networks:
   kafka-net:
     driver: bridge

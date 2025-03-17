@@ -43,9 +43,6 @@ spring:
     serialization:
       write-enums-using-to-string: true
 
-server:
-  port: 8090
-
 
 
 yookassa:
@@ -56,4 +53,22 @@ yookassa:
 topics:
   kafka:
     outbox-payment: outbox_payment.public.outbox_payment
+server:
+  port: 8090
+
+
+management:
+  server:
+    port: 8090
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  metrics:
+    enable:
+      all: true
+
+
+
+
 

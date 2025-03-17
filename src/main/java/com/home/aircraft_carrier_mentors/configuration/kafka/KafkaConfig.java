@@ -36,6 +36,7 @@ public class KafkaConfig {
         return new KafkaAdmin(configs);
     }
 
+
     @Bean
     NewTopic outboxPaymentTopic() {
         return TopicBuilder.name(kafkaTopics.outboxPayment())
