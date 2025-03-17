@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
 @Table(name = "intern")
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Intern{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +24,6 @@ public class Intern{
 
     @Column(name = "name", nullable = false)
     private String name;
-
-    @OneToOne(mappedBy = "intern")
-    private UserOwner userOwner;
 
     @ManyToMany(mappedBy = "interns")
     private List<Mentor> mentors;
@@ -36,8 +36,8 @@ public class Intern{
     )
     private List<Contact> contacts;
 
-    @Column(name = "created_at", nullable = false)
-    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreatedDate
     private Instant createdAt;
 
     public Long getId() {

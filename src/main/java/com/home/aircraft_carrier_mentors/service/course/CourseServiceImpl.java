@@ -3,10 +3,9 @@ package com.home.aircraft_carrier_mentors.service.course;
 import com.home.aircraft_carrier_mentors.exception.MyNotFoundException;
 import com.home.aircraft_carrier_mentors.mapper.CourseMapper;
 import com.home.aircraft_carrier_mentors.model.Course;
-import com.home.aircraft_carrier_mentors.model.CourseOwner;
+import com.home.aircraft_carrier_mentors.model.UserOwner;
 import com.home.aircraft_carrier_mentors.model.dto.CourseRequestDto;
 import com.home.aircraft_carrier_mentors.model.dto.CourseResponseDto;
-import com.home.aircraft_carrier_mentors.repository.CourseOwnerRepository;
 import com.home.aircraft_carrier_mentors.repository.CourseRepository;
 import com.home.aircraft_carrier_mentors.repository.UserOwnerRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class CourseServiceImpl implements  CourseService {
     private final CourseRepository courseRepository;
     private final UserOwnerRepository  userOwnerRepository;
-    private final CourseOwnerRepository courseOwnerRepository;
     private final CourseMapper courseMapper;
 
     @Override
@@ -28,9 +26,9 @@ public class CourseServiceImpl implements  CourseService {
         course.setTitle(courseRequestDto.getTitle());
         course.setDescription(courseRequestDto.getDescription());
 
-        CourseOwner courseOwner = courseOwnerRepository.findById(courseRequestDto.getOwnerId())
-                .orElseThrow(() -> new MyNotFoundException("Owner not found. Id : " + courseRequestDto.getOwnerId()));
-        course.setCourseOwner(courseOwner);
+        UserOwner courseOwner = userOwnerRepository.findById(courseRequestDto.getUserOwnerId())
+                .orElseThrow(() -> new MyNotFoundException("Owner not found. Id : " + courseRequestDto.getUserOwnerId()));
+        course.setUserOwner(courseOwner);
 
         Course createdCourse = courseRepository.save(course);
         return courseMapper.courseToCourseResponseDto(createdCourse);

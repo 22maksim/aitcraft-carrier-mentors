@@ -18,5 +18,5 @@ public class CourseRequestDto implements Serializable {
     @NotNull
     private String description;
     @NotNull
-    private Long ownerId;
+    private Long userOwnerId;
 }

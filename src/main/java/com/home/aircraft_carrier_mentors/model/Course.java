@@ -4,14 +4,21 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.Instant;
 
 @Entity
 @Builder
 @Table(name = "courses")
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Course {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "title", nullable = false)
@@ -24,15 +31,39 @@ public class Course {
     private StructureCourse structureCourse;
 
     @ManyToOne
-    @JoinColumn(name = "course_owner_id")
-    private CourseOwner courseOwner;
+    @JoinColumn(name = "user_owner_id")
+    private UserOwner userOwner;
 
-    public CourseOwner getCourseOwner() {
-        return courseOwner;
+    @UpdateTimestamp
+    @Column(name = "update_at", nullable = false)
+    private Instant updateAt;
+
+    @CreatedDate
+    @Column(name = "created_at",  nullable = false, updatable = false)
+    private Instant createdAt;
+
+    public Instant getUpdateAt() {
+        return updateAt;
     }
 
-    public void setCourseOwner(CourseOwner courseOwner) {
-        this.courseOwner = courseOwner;
+    public void setUpdateAt(Instant updateAt) {
+        this.updateAt = updateAt;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public UserOwner getUserOwner() {
+        return userOwner;
+    }
+
+    public void setUserOwner(UserOwner userOwner) {
+        this.userOwner = userOwner;
     }
 
     public Long getId() {

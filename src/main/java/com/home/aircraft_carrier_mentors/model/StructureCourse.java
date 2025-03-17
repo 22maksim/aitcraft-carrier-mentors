@@ -3,6 +3,8 @@ package com.home.aircraft_carrier_mentors.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.util.List;
@@ -11,21 +13,24 @@ import java.util.List;
 @Table(name = "structures_course")
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class StructureCourse {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToMany(mappedBy = "courseStructure", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "structureCourse", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StageCourse> stages;
 
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @Column(name = "created_at")
+    @CreatedDate
+    @Column(name = "created_at", updatable = false, nullable = false)
     private Instant createdAt;
 
     public Long getId() {

@@ -3,6 +3,8 @@ package com.home.aircraft_carrier_mentors.controller;
 import com.home.aircraft_carrier_mentors.model.dto.StageCourseRequestDto;
 import com.home.aircraft_carrier_mentors.model.dto.StructureCourseResponseDto;
 import com.home.aircraft_carrier_mentors.service.course.StructureCourseService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/v1/structure-course")
 @RequiredArgsConstructor
+@Tag(name = "Structure API", description = "Методы для работы со структурами курсов")
 public class StructureCourseController {
     private final StructureCourseService structureCourseServiceImpl;
 
@@ -20,6 +23,7 @@ public class StructureCourseController {
         return structureCourseServiceImpl.addStageFromStructureById(id, stageStructureDto);
     }
 
+    @Operation(summary = "Удалить этап из структуры", description = "Удаляет этап по его ID в структуре")
     @DeleteMapping("/{structureId}/stage/{stageId}")
     public StructureCourseResponseDto deleteStageFromStructureByStructureIdAndStageId(
             @NotNull @PathVariable(name = "structureId") Long structureId,

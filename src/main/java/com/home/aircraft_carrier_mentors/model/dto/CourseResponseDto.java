@@ -12,7 +12,7 @@ public class CourseResponseDto implements Serializable {
     private Long id;
     private String title;
     private String description;
-    private Long ownerId;
+    private Long userOwnerId;
     private StructureCourseResponseDto structureCourse;
     private Instant updateAt;
     private Instant createdAt;
@@ -41,12 +41,12 @@ public class CourseResponseDto implements Serializable {
         this.description = description;
     }
 
-    public Long getOwnerId() {
-        return ownerId;
+    public Long getUserOwnerId() {
+        return userOwnerId;
     }
 
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
+    public void setUserOwnerId(Long ownerId) {
+        this.userOwnerId = ownerId;
     }
 
     public StructureCourseResponseDto getStructureCourse() {

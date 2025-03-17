@@ -3,13 +3,19 @@ package com.home.aircraft_carrier_mentors.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.Instant;
 
 @Entity
 @Table(name = "stage_courses")
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class StageCourse {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "title", nullable = false)
@@ -21,6 +27,10 @@ public class StageCourse {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_structure_id")
     private StructureCourse structureCourse;
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
 
     public Long getId() {
         return id;
@@ -52,5 +62,9 @@ public class StageCourse {
 
     public void setStructureCourse(StructureCourse structureCourse) {
         this.structureCourse = structureCourse;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 }

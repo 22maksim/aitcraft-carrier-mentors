@@ -1,11 +1,14 @@
 package com.home.aircraft_carrier_mentors.controller;
 
-import com.home.aircraft_carrier_mentors.model.dto.PaymentCourseRequestDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.home.aircraft_carrier_mentors.model.dto.PaymentCourseOrderResponseDto;
+import com.home.aircraft_carrier_mentors.model.dto.PaymentCourseOrderRequestDto;
 import com.home.aircraft_carrier_mentors.service.payment.PaymentService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,9 +19,7 @@ public class PaymentController {
     private final PaymentService paymentServiceImpl;
 
     @PostMapping
-    public ResponseEntity<String> payCourse(PaymentCourseRequestDto requestDto) {
-        return ResponseEntity.ok()
-                .headers(HttpHeaders.EMPTY) // тут начиннётся логика оплаты, не забудь ;-))
-                .body(paymentServiceImpl.payCourse(requestDto));
+    public PaymentCourseOrderResponseDto payCourse(@RequestBody @NotNull @Valid PaymentCourseOrderRequestDto requestDto) throws JsonProcessingException {
+        return paymentServiceImpl.payCourse(requestDto);
     }
 }

@@ -2,7 +2,6 @@ package com.home.aircraft_carrier_mentors.service.course;
 
 import com.home.aircraft_carrier_mentors.model.dto.CourseRequestDto;
 import com.home.aircraft_carrier_mentors.model.dto.CourseResponseDto;
-import jakarta.validation.constraints.NotNull;
 
 public interface CourseService {
 
@@ -10,5 +9,5 @@ public interface CourseService {
 
     void deleteCourse(Long id);
 
-    CourseResponseDto getCourse(@NotNull Long id);
+    CourseResponseDto getCourse(Long id);
 }

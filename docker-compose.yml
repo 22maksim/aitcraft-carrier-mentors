@@ -1,0 +1,92 @@
+version: '4.0'
+
+# Здесь локально оставляем .env файл, в прод отправляем без него, файл можно получить условно через "лида"
+
+services:
+
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:7.5.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: "2181"
+    networks:
+      - kafka-net
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: MY_HOST://${KAFKA_BROKER},PLAINTEXT://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: MY_HOST:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: MY_HOST
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - kafka-net
+    ports:
+      - "9092:9092"
+    env_file:
+      - .env
+
+  postgres:
+    image: ${POSTGRES_IMAGE}
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres:/docker-entrypoint-initdb.d
+    networks:
+      - kafka-net
+    env_file:
+      - .env
+
+  debezium-connect:
+    image: debezium/connect:2.5
+    container_name: debezium-connect
+    depends_on:
+      - kafka
+      - postgres
+    environment:
+      CONFIG_STORAGE_TOPIC: connect-configs
+      DEBEZIUM_VERSION: "2.7"
+      GROUP_ID: debezium-connect
+      BOOTSTRAP_SERVERS: ${KAFKA_BROKER}
+      OFFSET_STORAGE_TOPIC: connect-offsets
+      PLUGIN_PATH: /kafka/connect
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      STATUS_STORAGE_TOPIC: connect-status
+    ports:
+      - "8083:8083"
+    networks:
+      - kafka-net
+    env_file:
+      - .env
+
+  akhq:
+    image: tchiotludo/akhq
+    container_name: akhq
+    ports:
+      - "8080:8080"
+    networks:
+      - kafka-net
+    environment:
+      AKHQ_CONFIGURATION: |
+        akhq:
+          connections:
+            my-cluster:
+              properties:
+                bootstrap.servers: "kafka:9093"
+
+networks:
+  kafka-net:
+    driver: bridge

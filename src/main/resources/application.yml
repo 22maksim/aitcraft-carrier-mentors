@@ -13,18 +13,47 @@ spring:
     hibernate:
       ddl-auto: update
 
-  profiles:
-    active: local
+#  profiles:
+#    active: local
+
+  kafka:
+    bootstrapServers:
+      - localhost:9092
+    properties:
+      allow.auto.create.topics: true
+      request.timeout.ms: 60000
+      session.timeout.ms: 45000
+    producer:
+      acks: all
+      retries: 10
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: my-group
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+#      properties:
+#        spring.json.trusted.packages: "*"  # Укажи пакет или оставь * для всех
+    listener:
+      ack-mode: manual
 
   jackson:
     serialization:
       write-enums-using-to-string: true
 
 server:
-  port: 8069
+  port: 8090
+
+
 
 yookassa:
   token: ${YOUKASSA_TOKEN}
   store-id: ${STORE_ID}
   password: ${YOOKASSA_PASSWORD}
+
+topics:
+  kafka:
+    outbox-payment: outbox_payment.public.outbox_payment
 

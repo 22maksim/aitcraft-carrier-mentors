@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Table(name = "mentor")
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Mentor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +42,8 @@ public class Mentor {
     )
     private List<Contact> contacts;
 
-    @Column(name = "created_at", updatable = false)
-    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreatedDate
     private Instant createdAt;
 
     public Long getId() {
@@ -80,7 +82,4 @@ public class Mentor {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
 }
