@@ -6,6 +6,9 @@ import com.home.aircraft_carrier_mentors.service.course.CourseService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +25,14 @@ public class CourseController {
     }
 
     @GetMapping("{id}")
+    @Cacheable(value = "courseById", key = "#id")
     public CourseResponseDto getCourse(@PathVariable @NotNull Long id) {
         return courseServiceImpl.getCourse(id);
     }
 
+    @CacheEvict(value = "courseById", key = "#id")
     @DeleteMapping("{id}")
-    public void deleteCourse(@PathVariable Long id) {
+    public void deleteCourse(@PathVariable @NotNull Long id) {
         courseServiceImpl.deleteCourse(id);
     }
 }

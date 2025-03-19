@@ -37,6 +37,7 @@ dependencies {
 	*   DataBase
 	*/
 //	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation("org.springframework.kafka:spring-kafka")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.postgresql:postgresql")

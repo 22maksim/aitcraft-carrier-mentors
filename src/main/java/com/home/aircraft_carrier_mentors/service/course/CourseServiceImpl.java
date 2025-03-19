@@ -10,6 +10,8 @@ import com.home.aircraft_carrier_mentors.repository.CourseRepository;
 import com.home.aircraft_carrier_mentors.repository.UserOwnerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -21,6 +23,7 @@ public class CourseServiceImpl implements  CourseService {
     private final CourseMapper courseMapper;
 
     @Override
+    @CachePut(value = "courseById", key = "#result.id")
     public CourseResponseDto createCourse(CourseRequestDto courseRequestDto) {
         Course course = new Course();
         course.setTitle(courseRequestDto.getTitle());

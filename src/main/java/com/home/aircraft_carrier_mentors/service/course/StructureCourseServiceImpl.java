@@ -8,10 +8,13 @@ import com.home.aircraft_carrier_mentors.model.dto.StageCourseRequestDto;
 import com.home.aircraft_carrier_mentors.model.dto.StructureCourseResponseDto;
 import com.home.aircraft_carrier_mentors.repository.StageCourseRepository;
 import com.home.aircraft_carrier_mentors.repository.StructureCourseRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -39,6 +42,17 @@ public class StructureCourseServiceImpl implements StructureCourseService {
         return customStructureCourseMapper.toResponseDto(structureCourse);
     }
 
+    @Transactional
+    @Override
+    public List<StructureCourseResponseDto> getAllStagesFromStructureCourseByCourseId(Long idCourse) {
+        List<StructureCourse> list = structureCourseRepository.findAllByCourseId(idCourse);
+        return list.stream()
+                .filter(Objects::nonNull)
+                .map(customStructureCourseMapper::toResponseDto)
+                .toList();
+    }
+
+    @Transactional
     @Override
     public StructureCourseResponseDto deleteStageFromStructureByStructureIdAndStageId(Long structureId, Long stageId) {
         StructureCourse structureCourse = structureCourseRepository.findById(structureId)

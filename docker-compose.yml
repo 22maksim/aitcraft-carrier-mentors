@@ -4,6 +4,15 @@ version: '4.0'
 
 services:
 
+  redis:
+    container_name: redis
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - kafka-net
+
   zookeeper:
     container_name: zookeeper
     image: confluentinc/cp-zookeeper:7.5.0
