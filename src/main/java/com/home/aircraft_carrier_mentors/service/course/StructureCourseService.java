@@ -11,5 +11,5 @@ public interface StructureCourseService {
 
     StructureCourseResponseDto deleteStageFromStructureByStructureIdAndStageId(Long structureId,Long stageId);
 
-    List<StructureCourseResponseDto> getAllStagesFromStructureCourseByCourseId(Long idCourse);
+    StructureCourseResponseDto getStructureCourseByCourseId(Long idCourse);
 }

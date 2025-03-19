@@ -13,9 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -44,12 +41,9 @@ public class StructureCourseServiceImpl implements StructureCourseService {
 
     @Transactional
     @Override
-    public List<StructureCourseResponseDto> getAllStagesFromStructureCourseByCourseId(Long idCourse) {
-        List<StructureCourse> list = structureCourseRepository.findAllByCourseId(idCourse);
-        return list.stream()
-                .filter(Objects::nonNull)
-                .map(customStructureCourseMapper::toResponseDto)
-                .toList();
+    public StructureCourseResponseDto getStructureCourseByCourseId(Long idCourse) {
+        StructureCourse structure = structureCourseRepository.findByCourseId(idCourse);
+        return customStructureCourseMapper.toResponseDto(structure);
     }
 
     @Transactional

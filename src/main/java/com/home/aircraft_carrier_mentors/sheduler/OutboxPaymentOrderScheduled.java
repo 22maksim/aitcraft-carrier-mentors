@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class OutboxPaymentOrderScheduled {
     private final PaymentService paymentServiceImpl;
 
-    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void scheduledPaymentOrder() {
         paymentServiceImpl.findOldOrders();
         log.info("Scheduled old payment order is removed");

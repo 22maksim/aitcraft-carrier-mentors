@@ -22,6 +22,7 @@ public class StructureCourseController {
     private final StructureCourseService structureCourseServiceImpl;
 
     @PutMapping("/{id}")
+    @CachePut(value = "course-structures", key = "#result.courseId")
     public StructureCourseResponseDto addStageFromStructureById(@PathVariable Long id,
             @RequestBody @NotNull @Valid StageCourseRequestDto stageStructureDto) {
         return structureCourseServiceImpl.addStageFromStructureById(id, stageStructureDto);
@@ -29,7 +30,7 @@ public class StructureCourseController {
 
     @Operation(summary = "Удалить этап из структуры", description = "Удаляет этап по его ID в структуре")
     @DeleteMapping("/{structureId}/stage/{stageId}")
-    @CachePut(value = "course-stages", key = "#result.courseId")
+    @CachePut(value = "course-structures", key = "#result.courseId")
     public StructureCourseResponseDto deleteStageFromStructureByStructureIdAndStageId(
             @NotNull @PathVariable(name = "structureId") Long structureId,
             @PathVariable(name = "stageId") @NotNull Long stageId) {
@@ -37,9 +38,9 @@ public class StructureCourseController {
     }
 
     @GetMapping("get-all-by-course-id/{id}")
-    @Cacheable(value = "course-stages", key = "#idCourse")
-    public List<StructureCourseResponseDto> getAllStagesFromStructureCourseByCourseId(
+    @Cacheable(value = "course-structures", key = "#idCourse")
+    public StructureCourseResponseDto getStructureCourseByCourseId(
             @NotNull @PathVariable(name = "id") Long idCourse) {
-        return structureCourseServiceImpl.getAllStagesFromStructureCourseByCourseId(idCourse);
+        return structureCourseServiceImpl.getStructureCourseByCourseId(idCourse);
     }
 }

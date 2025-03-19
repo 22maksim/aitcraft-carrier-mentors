@@ -14,5 +14,5 @@ public interface StructureCourseRepository extends JpaRepository<StructureCourse
     @Query(value = """
         SELECT * FROM structures_course WHERE course_id = ?1
     """, nativeQuery = true)
-    List<StructureCourse> findAllByCourseId(Long idCourse);
+    StructureCourse findByCourseId(Long idCourse);
 }
