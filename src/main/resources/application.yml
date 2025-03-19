@@ -68,6 +68,22 @@ management:
     enable:
       all: true
 
+springdoc:
+  model-converters:
+    pageable-converter:
+      enabled: true
+  show-actuator: true
+  swagger-ui:
+    path: "/swagger-ui"
+    docExpansion: none
+    enabled: true
+
+resilience4j.ratelimiter:
+  instances:
+    myRateLimiter:
+      limitForPeriod: 180  # количество запросов
+      limitRefreshPeriod: 1m  # период обновления лимита
+      timeoutDuration: 200ms  # тайм-аут на запросы, которые превышают лимит
 
 
 

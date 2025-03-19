@@ -60,6 +60,7 @@ dependencies {
 	/**
 	 *  Utils && Logging
 	 */
+	implementation("com.wudgaby.platform:rate-limiter-core:1.1.2")
 	implementation("org.mapstruct:mapstruct:1.5.3.Final")
 	implementation("io.micrometer:micrometer-registry-prometheus")
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
