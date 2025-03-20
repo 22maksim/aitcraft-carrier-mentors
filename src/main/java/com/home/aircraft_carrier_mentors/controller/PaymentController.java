@@ -19,7 +19,8 @@ public class PaymentController {
     private final PaymentService paymentServiceImpl;
 
     @PostMapping
-    public PaymentCourseOrderResponseDto payCourse(@RequestBody @NotNull @Valid PaymentCourseOrderRequestDto requestDto) throws JsonProcessingException {
+    public PaymentCourseOrderResponseDto payCourse(@RequestBody @NotNull @Valid PaymentCourseOrderRequestDto requestDto)
+            throws JsonProcessingException {
         return paymentServiceImpl.payCourse(requestDto);
     }
 }

@@ -96,17 +96,55 @@ services:
               properties:
                 bootstrap.servers: "kafka:9093"
 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+    networks:
+      - kafka-net
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.2
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - kafka-net
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.10.2
+    container_name: logstash
+    environment:
+      - ES_HOST=${ES_HOST}
+      - ES_PORT=${ES_PORT}
+      - INPUT_HOST=logstash
+      - INPUT_PORT=${INPUT_PORT}
+      - OUTPUT_INDEX=${OUTPUT_INDEX}
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    ports:
+      - "5044:5044"
+    env_file:
+      - .env
+    networks:
+      - kafka-net
+
   prometheus:
     image: prom/prometheus:v2.37.0
     container_name: prometheus
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml  # Монтируем конфиг
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
-      - "9090:9090" # Порт для доступа к интерфейсу Prometheus
+      - "9090:9090"
     networks:
       - kafka-net
     command:
-      - "--config.file=/etc/prometheus/prometheus.yml"  # Указываем конфигурацию
+      - "--config.file=/etc/prometheus/prometheus.yml"
 
 networks:
   kafka-net:

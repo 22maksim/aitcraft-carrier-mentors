@@ -22,9 +22,27 @@
         </encoder>
     </appender>
 
+    <!-- Логируем в Logstash (через LogstashTcpSocketAppender) -->
+    <appender name="ELASTIC" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>localhost:5044</destination>
+        <encoder>
+            <pattern>
+                {
+                "timestamp": "%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ}",
+                "level": "%level",
+                "thread": "%thread",
+                "logger": "%logger{36}",
+                "message": "%msg",
+                "exception": "%ex"
+                }
+            </pattern>
+        </encoder>
+    </appender>
+
     <root level="info">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
+        <appender-ref ref="ELASTIC"/>
     </root>
 
 </configuration>

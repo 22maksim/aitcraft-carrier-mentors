@@ -63,6 +63,7 @@ dependencies {
 	implementation("com.wudgaby.platform:rate-limiter-core:1.1.2")
 	implementation("org.mapstruct:mapstruct:1.5.3.Final")
 	implementation("io.micrometer:micrometer-registry-prometheus")
+	implementation("net.logstash.logback:logstash-logback-encoder:8.0")
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
 	annotationProcessor("org.projectlombok:lombok")
 	compileOnly("org.projectlombok:lombok")

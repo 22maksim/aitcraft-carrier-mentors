@@ -34,7 +34,6 @@ import java.util.Map;
 public class PaymentServiceImpl implements PaymentService {
     private final PaymentOrderFromCourseRepository paymentOrderFromCourseRepository;
     private final CourseRepository courseRepository;
-    private final UserOwnerRepository userOwnerRepository;
     private final ObjectMapper objectMapper;
     private final OutboxPaymentRepository  outboxPaymentRepository;
     private final InternRepository internRepository;
