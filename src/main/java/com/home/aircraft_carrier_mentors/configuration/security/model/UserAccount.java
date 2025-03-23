@@ -20,6 +20,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserAccount implements UserDetails {
+    public UserAccount(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     @Id
     @Size(min = 5, max = 55)
     private String username;
