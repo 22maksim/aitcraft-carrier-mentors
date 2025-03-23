@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -20,9 +21,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserAccount implements UserDetails {
-    public UserAccount(String username, String password) {
+    public UserAccount(String username, String password, UserRole role) {
         this.username = username;
         this.password = password;
+        this.roles.add(role);
     }
 
     @Id
@@ -40,7 +42,7 @@ public class UserAccount implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private List<UserRole> roles;
+    private Set<UserRole> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
