@@ -8,18 +8,22 @@ spring:
     password: ${POSTGRES_PASSWORD}
 
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate:
       ddl-auto: update
+    open-in-view: false
 
-#  profiles:
+  #  profiles:
 #    active: local
 
   kafka:
     bootstrapServers:
       - localhost:9092
     properties:
+      api:
+        version:
+          request: true
       allow.auto.create.topics: true
       request.timeout.ms: 60000
       session.timeout.ms: 45000
