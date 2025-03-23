@@ -1,1 +1,1 @@
-kafka-acls.sh --bootstrap-server your-kafka-host:9092 --list
+openssl rand -base64 32

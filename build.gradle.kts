@@ -61,6 +61,9 @@ dependencies {
 	/**
 	 *  Utils && Logging
 	 */
+	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
 	implementation("com.wudgaby.platform:rate-limiter-core:1.1.2")
 	implementation("org.mapstruct:mapstruct:1.5.3.Final")
 	implementation("io.micrometer:micrometer-registry-prometheus")

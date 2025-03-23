@@ -21,7 +21,7 @@ public class UserOwner {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "username")
+  @Column(name = "username", unique = true, nullable = false)
   private String username;
 
   @OneToMany(mappedBy = "userOwner")

@@ -14,9 +14,6 @@ spring:
       ddl-auto: update
     open-in-view: false
 
-  #  profiles:
-#    active: local
-
   kafka:
     bootstrapServers:
       - localhost:9092
