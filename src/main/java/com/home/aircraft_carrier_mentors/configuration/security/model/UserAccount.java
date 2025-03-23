@@ -44,6 +44,12 @@ public class UserAccount implements UserDetails {
                 .toList();
     }
 
+    @Column(name = "account_non_expired", nullable = false)
+    private boolean accountNonExpired = true;
+
+    @Column(name = "account_non_locked", nullable = false)
+    private boolean accountNonLocked = true;
+
     @Override
     public String getPassword() {
         return username;
@@ -54,11 +60,32 @@ public class UserAccount implements UserDetails {
         return password;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return this.accountNonExpired;
+    }
+
+    // На проекте использую для управления блокировкой пользователя, например, после нескольких неудачных попыток входа5
+    // или по решению администратора. Кол-во попыток еще не реализовывал. А для админа надо добавить endpoint типа
+    // blockUser и еще unLockUser, где буду устанавливать значение false и true соответственно
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.accountNonLocked;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        this.accountNonExpired = accountNonExpired;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
     }
 }
