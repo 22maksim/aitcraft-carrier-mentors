@@ -5,3 +5,5 @@ CREATE TABLE IF NOT EXISTS outbox_payment (
     payload jsonb NOT NULL,
     created_at timestamp with time zone DEFAULT now()
 );
+
+--   таблица не верна. она для другого варианта

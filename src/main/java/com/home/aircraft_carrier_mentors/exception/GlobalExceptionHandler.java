@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MyJsonSerializationExc.class)
     public String jsonSerializationException(MyJsonSerializationExc e) {
-        return e.getMessage() + " Возникли проблемы с сериализацией, проверьте данные и попробуйте снова";
+        return e.getMessage() + " Возникли проблемы с обработкой данных, проверьте данные и попробуйте снова";
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
