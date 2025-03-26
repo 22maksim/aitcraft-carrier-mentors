@@ -15,6 +15,8 @@ public class MentorRequestDto implements Serializable {
     @NotNull
     private String name;
 
+    private Long userOwnerId;
+
     @NotNull
     private List<ContactDto> contacts;
 }

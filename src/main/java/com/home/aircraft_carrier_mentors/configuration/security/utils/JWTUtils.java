@@ -1,4 +1,4 @@
-package com.home.aircraft_carrier_mentors.configuration.security.model;
+package com.home.aircraft_carrier_mentors.configuration.security.utils;
 
 
 import io.jsonwebtoken.Claims;
@@ -53,15 +53,6 @@ public class JWTUtils {
             return true;
         }
         return extractClaims(token).getExpiration().before(new Date());
-    }
-
-    public boolean validateToken(String token, String username) {
-        if (token == null || username == null) {
-            log.warn("Token or Username is null!");
-            return false;
-        }
-        String extractedUsername = extractClaims(token).getSubject();
-        return username.equals(extractedUsername);
     }
 
     private static SecretKey getSigningKey() {

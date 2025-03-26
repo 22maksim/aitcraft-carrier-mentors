@@ -26,19 +26,15 @@ import java.util.List;
 public class MentorServiceImpl implements MentorService {
     private final ContactService contactService;
     private final MentorRepository mentorRepository;
-    private final InternRepository internRepository;
-    private final ContactRepository contactRepository;
     private final MentorMapper mentorMapper;
-    private final InternMapper internMapper;
-    private final ContactMapper contactMapper;
 
     @Transactional
     @Override
     public MentorResponseDto createMentor(MentorRequestDto requestDto) {
         List<Contact> contacts = contactService.saveAll(requestDto.getContacts());
+
         Mentor mentor = mentorMapper.toMentor(requestDto);
         mentor.setContacts(contacts);
-        System.out.println(mentor.getId() + " " + mentor.getName() + " " + mentor.getContacts());
         mentorRepository.save(mentor);
 
         return mentorMapper.mentorToResponseDto(mentor);

@@ -15,5 +15,4 @@ public class UserOwnerRequestDto {
     @Size(min = 3, max = 255)
     private String username;
 
-    private Long mentorId;
 }

@@ -1,18 +1,13 @@
 package com.home.aircraft_carrier_mentors.configuration.security.sertvice;
 
-import com.home.aircraft_carrier_mentors.configuration.security.model.JWTUtils;
-import com.home.aircraft_carrier_mentors.configuration.security.model.UserAccount;
-import com.home.aircraft_carrier_mentors.configuration.security.model.UserAccountDto;
-import com.home.aircraft_carrier_mentors.configuration.security.model.UserRole;
+import com.home.aircraft_carrier_mentors.configuration.security.model.*;
 import com.home.aircraft_carrier_mentors.configuration.security.repository.UserAccountRepository;
+import com.home.aircraft_carrier_mentors.configuration.security.utils.JWTUtils;
 import com.home.aircraft_carrier_mentors.model.dto.UserOwnerRequestDto;
+import com.home.aircraft_carrier_mentors.model.dto.UserOwnerResponseDto;
 import com.home.aircraft_carrier_mentors.service.user_owner.UserOwnerService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -78,22 +73,30 @@ public class UserAccountService implements UserDetailsService {
     }
 
     @Transactional
-    public String login(UserAccountDto userLoginDto) {
+    public UserAccountResponseDto login(UserAccountDto userLoginDto) {
         UserAccount account = getUserAccountByUsername(userLoginDto.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден: " + userLoginDto.getUsername()));
+                .orElseThrow(
+                        () -> new UsernameNotFoundException("Пользователь не найден: " + userLoginDto.getUsername()));
 
         if (!passwordEncoder.matches(userLoginDto.getPassword(), account.getPassword())) {
             log.warn("Неудачная попытка входа для {}", userLoginDto.getUsername());
             throw new BadCredentialsException("Неверный пароль");
         }
 
-        String role = account.getRoles().contains(UserRole.ADMIN) ? UserRole.ADMIN.getValue() : UserRole.USER.getValue();
+        String role =
+                account.getRoles().contains(UserRole.ADMIN) ? UserRole.ADMIN.getValue() : UserRole.USER.getValue();
+
+        UserOwnerResponseDto userOwnerDto = userOwnerServiceImpl.getUserOwner(account.getUserOwner());
 
         log.info("Пользователь {} вошел в систему", userLoginDto.getUsername());
-        return JWTUtils.generateToken(
-                account.getUsername(),
-                Map.of("sub", account.getUsername(), "role", role)
-        );
+
+        return UserAccountResponseDto.builder()
+                .token(JWTUtils.generateToken(
+                        account.getUsername(),
+                        Map.of("sub", account.getUsername(), "role", role)))
+                .username(account.getUsername())
+                .user(userOwnerDto)
+                .build();
     }
 
     private Optional<UserAccount> getUserAccountByUsername(String username) {
